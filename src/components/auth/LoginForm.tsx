@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -18,6 +18,8 @@ import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Separator } from '@/components/ui/separator';
 import { Github, Mail } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
+import { Spinner } from '@/components/ui/spinner';
 
 const formSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
@@ -28,6 +30,9 @@ const formSchema = z.object({
 type FormData = z.infer<typeof formSchema>;
 
 const LoginForm = () => {
+  const { signIn } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
+
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -37,9 +42,14 @@ const LoginForm = () => {
     },
   });
 
-  const onSubmit = (data: FormData) => {
-    console.log("Login data: ", data);
-    // TODO: Implement actual login logic
+  const onSubmit = async (data: FormData) => {
+    try {
+      setIsLoading(true);
+      await signIn(data.email, data.password);
+    } catch (error) {
+      console.error("Login error:", error);
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -50,11 +60,11 @@ const LoginForm = () => {
       </div>
       
       <div className="grid grid-cols-2 gap-4">
-        <Button variant="outline" className="w-full">
+        <Button variant="outline" className="w-full" disabled={isLoading}>
           <Github className="mr-2 h-4 w-4" />
           Github
         </Button>
-        <Button variant="outline" className="w-full">
+        <Button variant="outline" className="w-full" disabled={isLoading}>
           <Mail className="mr-2 h-4 w-4" />
           Google
         </Button>
@@ -78,7 +88,7 @@ const LoginForm = () => {
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input placeholder="example@example.com" {...field} />
+                  <Input placeholder="example@example.com" {...field} disabled={isLoading} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -97,7 +107,7 @@ const LoginForm = () => {
                   </Link>
                 </div>
                 <FormControl>
-                  <Input type="password" {...field} />
+                  <Input type="password" {...field} disabled={isLoading} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -112,7 +122,8 @@ const LoginForm = () => {
                 <FormControl>
                   <Checkbox 
                     checked={field.value} 
-                    onCheckedChange={field.onChange} 
+                    onCheckedChange={field.onChange}
+                    disabled={isLoading}
                   />
                 </FormControl>
                 <div className="space-y-1 leading-none">
@@ -122,7 +133,12 @@ const LoginForm = () => {
             )}
           />
           
-          <Button type="submit" className="w-full bg-forest-500 hover:bg-forest-600">
+          <Button 
+            type="submit" 
+            className="w-full bg-forest-500 hover:bg-forest-600" 
+            disabled={isLoading}
+          >
+            {isLoading ? <Spinner size="sm" className="mr-2" /> : null}
             Sign In
           </Button>
         </form>
