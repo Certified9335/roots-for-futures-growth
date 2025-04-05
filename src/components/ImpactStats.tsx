@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { TreeDeciduous, Globe, UserPlus, Co2 } from 'lucide-react';
+import { TreeDeciduous, Globe, UserPlus, CloudCog } from 'lucide-react';
 
 const StatCard = ({
   icon: Icon,
@@ -56,7 +56,7 @@ const ImpactStats = () => {
           />
           
           <StatCard
-            icon={Co2}
+            icon={CloudCog}
             value="209.1"
             label="Tons of CO₂ Absorbed"
             className="bg-forest-600 text-white"
