@@ -5,7 +5,8 @@ import Footer from '@/components/Footer';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { TreeDeciduous, ArrowUp, Users, Calendar, MapPin, List, Grid3X3, Plus } from 'lucide-react';
+import { TreeDeciduous, ArrowUp, Users, Calendar, MapPin, List, Grid3X3, Plus, Heart } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 // Sample data for the dashboard
 const userData = {
@@ -32,6 +33,24 @@ const Dashboard = () => {
             <h1 className="text-3xl font-bold">Welcome back, {userData.name}</h1>
             <p className="text-muted-foreground mt-1">Here's an overview of your environmental impact</p>
           </header>
+          
+          {/* New donation/sponsorship call-to-action */}
+          <div className="bg-forest-50 border border-forest-200 rounded-lg p-6 mb-8 flex flex-col md:flex-row items-center justify-between">
+            <div className="mb-4 md:mb-0">
+              <h2 className="text-xl font-semibold flex items-center">
+                <Heart className="mr-2 h-5 w-5 text-forest-500" />
+                Support Our Reforestation Efforts
+              </h2>
+              <p className="text-muted-foreground mt-1">
+                Make a difference by sponsoring trees or contributing to our mission
+              </p>
+            </div>
+            <Link to="/sponsorship">
+              <Button className="bg-forest-500 hover:bg-forest-600 w-full md:w-auto">
+                Sponsor or Donate Now
+              </Button>
+            </Link>
+          </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             <Card>
@@ -80,10 +99,18 @@ const Dashboard = () => {
           
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-2xl font-bold">My Trees</h2>
-            <Button className="bg-forest-500 hover:bg-forest-600">
-              <Plus className="mr-2 h-4 w-4" />
-              Plant New Tree
-            </Button>
+            <div className="flex gap-2">
+              <Link to="/sponsorship">
+                <Button variant="outline" className="flex items-center">
+                  <Heart className="mr-2 h-4 w-4 text-forest-500" />
+                  Sponsor Tree
+                </Button>
+              </Link>
+              <Button className="bg-forest-500 hover:bg-forest-600">
+                <Plus className="mr-2 h-4 w-4" />
+                Plant New Tree
+              </Button>
+            </div>
           </div>
           
           <Tabs defaultValue="grid">
