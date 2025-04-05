@@ -16,6 +16,9 @@ import TreeDetails from "./pages/TreeDetails";
 import TreeMap from "./pages/TreeMap";
 import Learn from "./pages/Learn";
 import Community from "./pages/Community";
+import Sponsorship from "./pages/Sponsorship";
+import Payment from "./pages/Payment";
+import PaymentSuccess from "./pages/PaymentSuccess";
 import NotFound from "./pages/NotFound";
 
 // Create a new QueryClient instance
@@ -48,6 +51,9 @@ const App = () => (
           <Route path="/map" element={<TreeMap />} />
           <Route path="/learn" element={<Learn />} />
           <Route path="/community" element={<Community />} />
+          <Route path="/sponsorship" element={<Sponsorship />} />
+          <Route path="/payment" element={<Payment />} />
+          <Route path="/payment-success" element={<PaymentSuccess />} />
           
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
