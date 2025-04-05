@@ -12,6 +12,11 @@ import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import PlantTree from "./pages/PlantTree";
 import Profile from "./pages/Profile";
+import MyTrees from "./pages/MyTrees";
+import TreeDetails from "./pages/TreeDetails";
+import TreeMap from "./pages/TreeMap";
+import Learn from "./pages/Learn";
+import Community from "./pages/Community";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -37,7 +42,15 @@ const App = () => (
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/plant" element={<PlantTree />} />
               <Route path="/profile" element={<Profile />} />
+              <Route path="/trees" element={<MyTrees />} />
+              <Route path="/trees/:id" element={<TreeDetails />} />
+              <Route path="/trees/:id/edit" element={<Dashboard />} /> {/* Placeholder - will implement later */}
             </Route>
+            
+            {/* Public routes */}
+            <Route path="/map" element={<TreeMap />} />
+            <Route path="/learn" element={<Learn />} />
+            <Route path="/community" element={<Community />} />
             
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
