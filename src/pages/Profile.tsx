@@ -10,6 +10,7 @@ import { Spinner } from '@/components/ui/spinner';
 import { toast } from '@/hooks/use-toast';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Database } from '@/integrations/supabase/types';
 
 interface ProfileData {
   id: string;
@@ -42,7 +43,7 @@ const Profile = () => {
         }
 
         if (data) {
-          setProfile(data);
+          setProfile(data as ProfileData);
           setFullName(data.full_name || '');
         }
       } catch (error) {
