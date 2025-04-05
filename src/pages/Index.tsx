@@ -1,27 +1,12 @@
-
-import React from 'react';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
-import Hero from '@/components/Hero';
-import FeatureSection from '@/components/FeatureSection';
-import ImpactStats from '@/components/ImpactStats';
-import TreeGallery from '@/components/TreeGallery';
-import CTASection from '@/components/CTASection';
-import Testimonials from '@/components/Testimonials';
+// Update this page (the content is just a fallback if you fail to update the page)
 
 const Index = () => {
   return (
-    <div className="min-h-screen flex flex-col">
-      <Navbar />
-      <main className="flex-grow">
-        <Hero />
-        <FeatureSection />
-        <ImpactStats />
-        <TreeGallery />
-        <Testimonials />
-        <CTASection />
-      </main>
-      <Footer />
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <div className="text-center">
+        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
+        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
+      </div>
     </div>
   );
 };
