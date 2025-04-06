@@ -1,4 +1,3 @@
-
 export interface Profile {
   id: string;
   full_name?: string;
@@ -59,3 +58,20 @@ export interface EducationalResource {
   created_at: string;
   updated_at: string;
 }
+
+export interface Sponsorship {
+  id: string;
+  user_id?: string;
+  sponsor_name: string;
+  sponsor_email: string;
+  sponsor_type: string;
+  tree_species: string;
+  tree_location: string;
+  amount: number;
+  payment_status?: string;
+  payment_method?: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export type SponsorshipFormData = Omit<Sponsorship, 'id' | 'created_at' | 'updated_at' | 'payment_status' | 'payment_method'>;

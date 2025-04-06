@@ -146,6 +146,51 @@ export type Database = {
         }
         Relationships: []
       }
+      sponsorships: {
+        Row: {
+          amount: number
+          created_at: string
+          id: string
+          payment_method: string | null
+          payment_status: string | null
+          sponsor_email: string
+          sponsor_name: string
+          sponsor_type: string
+          tree_location: string
+          tree_species: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          id?: string
+          payment_method?: string | null
+          payment_status?: string | null
+          sponsor_email: string
+          sponsor_name: string
+          sponsor_type: string
+          tree_location: string
+          tree_species: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          id?: string
+          payment_method?: string | null
+          payment_status?: string | null
+          sponsor_email?: string
+          sponsor_name?: string
+          sponsor_type?: string
+          tree_location?: string
+          tree_species?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       tree_likes: {
         Row: {
           created_at: string

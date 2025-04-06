@@ -21,6 +21,7 @@ import ResourceDetailPage from "./pages/ResourceDetailPage";
 import CommunityPage from "./pages/CommunityPage";
 import CreatePostPage from "./pages/CreatePostPage";
 import PostDetailPage from "./pages/PostDetailPage";
+import SponsorshipPage from "./pages/SponsorshipPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -36,6 +37,7 @@ const App = () => (
             <Route path="/" element={<HomePage />} />
             <Route path="/sign-in" element={<SignInPage />} />
             <Route path="/sign-up" element={<SignUpPage />} />
+            <Route path="/sponsorship" element={<SponsorshipPage />} />
             
             {/* Protected Tree Routes */}
             <Route path="/my-trees" element={<ProtectedRoute><MyTreesPage /></ProtectedRoute>} />

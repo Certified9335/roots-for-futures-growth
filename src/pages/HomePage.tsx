@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Layout } from '@/components/layout/Layout';
@@ -15,6 +14,7 @@ import {
 import { supabase } from '@/integrations/supabase/client';
 import { Tree, EducationalResource } from '@/types';
 import { Leaf, Map, BookOpen, Users, ArrowRight } from 'lucide-react';
+import { SponsorshipCta } from '@/components/sponsorship/SponsorshipCta';
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -210,6 +210,9 @@ const HomePage = () => {
           </Button>
         </div>
       </section>
+
+      {/* Sponsorship Section */}
+      <SponsorshipCta />
     </Layout>
   );
 };
