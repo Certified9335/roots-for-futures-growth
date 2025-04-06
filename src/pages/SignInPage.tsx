@@ -10,9 +10,9 @@ const SignInPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Redirect to home page if user is already signed in
+    // Redirect to dashboard if user is already signed in
     if (user) {
-      navigate('/');
+      navigate('/dashboard');
     }
   }, [user, navigate]);
 

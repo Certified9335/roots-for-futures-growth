@@ -1,11 +1,14 @@
 
-import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { TreeForm } from '@/components/trees/TreeForm';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Layout } from '@/components/layout/Layout';
+import { TreeForm } from '@/components/trees/TreeForm';
 import { useAuth } from '@/context/AuthContext';
-import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/components/ui/use-toast';
+import { supabase } from '@/integrations/supabase/client';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Button } from '@/components/ui/button';
+import { AlertCircle, Loader2 } from 'lucide-react';
 import { Tree } from '@/types';
 
 const EditTreePage = () => {
@@ -14,58 +17,78 @@ const EditTreePage = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [tree, setTree] = useState<Tree | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!user) {
-      navigate('/sign-in');
-      return;
-    }
-
     const fetchTree = async () => {
       try {
-        if (!id) return;
-        
+        if (!id) {
+          setError("Tree ID is missing");
+          setIsLoading(false);
+          return;
+        }
+
         const { data, error } = await supabase
           .from('trees')
           .select('*')
           .eq('id', id)
           .single();
-          
+
         if (error) throw error;
         
-        // Check if this tree belongs to the current user
-        if (data.user_id !== user.id) {
-          toast({
-            title: "Unauthorized",
-            description: "You can only edit your own trees.",
-            variant: "destructive",
-          });
-          navigate('/my-trees');
+        if (!data) {
+          setError("Tree not found");
+          setIsLoading(false);
           return;
         }
-        
-        setTree(data);
+
+        // Check if the tree belongs to the current user
+        if (data.user_id !== user?.id) {
+          setError("You don't have permission to edit this tree");
+          setIsLoading(false);
+          return;
+        }
+
+        setTree(data as Tree);
       } catch (error: any) {
-        toast({
-          title: "Error fetching tree",
-          description: error.message,
-          variant: "destructive",
-        });
-        navigate('/my-trees');
+        console.error("Error fetching tree:", error);
+        setError(error.message);
       } finally {
-        setLoading(false);
+        setIsLoading(false);
       }
     };
 
     fetchTree();
-  }, [id, user, navigate, toast]);
+  }, [id, user]);
 
-  if (loading) {
+  const handleSuccess = () => {
+    navigate('/my-trees');
+  };
+
+  if (isLoading) {
+    return (
+      <Layout>
+        <div className="container py-8 flex justify-center">
+          <Loader2 className="h-8 w-8 animate-spin" />
+        </div>
+      </Layout>
+    );
+  }
+
+  if (error || !tree) {
     return (
       <Layout>
         <div className="container py-8">
-          <p>Loading tree data...</p>
+          <Alert variant="destructive">
+            <AlertCircle className="h-4 w-4" />
+            <AlertTitle>Error</AlertTitle>
+            <AlertDescription>{error || "Failed to load tree data"}</AlertDescription>
+          </Alert>
+          <div className="mt-4">
+            <Button onClick={() => navigate('/my-trees')}>Return to My Trees</Button>
+          </div>
         </div>
       </Layout>
     );
@@ -74,13 +97,15 @@ const EditTreePage = () => {
   return (
     <Layout>
       <div className="container py-8">
-        <h1 className="text-3xl font-bold mb-6">Edit Tree</h1>
-        {tree && (
-          <TreeForm 
-            tree={tree} 
-            onSuccess={() => navigate('/my-trees')} 
-          />
-        )}
+        <h1 className="text-3xl font-bold mb-8">Edit Tree</h1>
+        
+        <TreeForm 
+          treeData={tree} 
+          isSubmitting={isSubmitting} 
+          setIsSubmitting={setIsSubmitting} 
+          onSubmitSuccess={handleSuccess} 
+          isEditing={true} 
+        />
       </div>
     </Layout>
   );
