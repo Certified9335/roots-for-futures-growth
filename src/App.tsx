@@ -5,6 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/context/AuthContext";
+import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 
 // Pages
 import HomePage from "./pages/HomePage";
@@ -36,11 +37,13 @@ const App = () => (
             <Route path="/sign-in" element={<SignInPage />} />
             <Route path="/sign-up" element={<SignUpPage />} />
             
-            {/* Tree Routes */}
-            <Route path="/my-trees" element={<MyTreesPage />} />
-            <Route path="/add-tree" element={<AddTreePage />} />
+            {/* Protected Tree Routes */}
+            <Route path="/my-trees" element={<ProtectedRoute><MyTreesPage /></ProtectedRoute>} />
+            <Route path="/add-tree" element={<ProtectedRoute><AddTreePage /></ProtectedRoute>} />
+            <Route path="/trees/:id/edit" element={<ProtectedRoute><EditTreePage /></ProtectedRoute>} />
+            
+            {/* Public Tree Routes */}
             <Route path="/trees/:id" element={<TreeDetailPage />} />
-            <Route path="/trees/:id/edit" element={<EditTreePage />} />
             <Route path="/map" element={<TreeMapPage />} />
             
             {/* Learn Routes */}
@@ -49,7 +52,7 @@ const App = () => (
             
             {/* Community Routes */}
             <Route path="/community" element={<CommunityPage />} />
-            <Route path="/community/new" element={<CreatePostPage />} />
+            <Route path="/community/new" element={<ProtectedRoute><CreatePostPage /></ProtectedRoute>} />
             <Route path="/community/:id" element={<PostDetailPage />} />
             
             {/* 404 Route */}
